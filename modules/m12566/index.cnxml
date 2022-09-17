@@ -1,0 +1,30 @@
+<document xmlns="http://cnx.rice.edu/cnxml" id="None" module-id="" cnxml-version="0.7">
+	<title>The Team</title>
+	<content>
+		<section id="s80">
+			<title>Group Members</title>
+			<para id="p80">The group work was distributed to follow the strengths of the individual members.  Jim Finnigan was responsible for most of the LabVIEW code, while Clay McPheeters and Jeremy Bass worked on a couple of supplementary VIs.  Ed Rodriguez built the actual hardware microphone array and the filters for the microphone signals going into the DAQ.  In addition, we all got together and tested the hardware and software to make sure it worked.  Jeremy and Clay created the poster for the presentation, while all members of the group worked on the Connexions modules.  We all spent many hours and exchanged uncountable blank stares trying to understand array theory.  Many thanks to Dr. Don H. Johnson for helping us along the way.  Dr. Richard Baraniuk also gave us helpful ideas and LabVIEW, which we could never have afforded.  <figure id="fig1">
+					<title>Jim Finnigan (finnigan@rice.edu)</title>
+					<media id="idm1080096" alt=""><image src="../../media/Jim.jpg" mime-type="image/jpeg"/></media>
+				</figure><figure id="fig2">
+					<title> Ed Rodriguez (edrod@rice.edu)</title>
+					<media id="idp6846208" alt=""><image src="../../media/Ed.jpg" mime-type="image/jpeg"/></media>
+				</figure><figure id="fig3">
+					<title> Clay McPheeters (claym@rice.edu)</title>
+					<media id="idp8937632" alt=""><image src="../../media/Clay.jpg" mime-type="image/jpeg"/></media>
+				</figure><figure id="idp6936848">
+					<title> Jeremy Bass (jbass1@rice.edu)</title>
+					<media id="idp7584128" alt=""><image src="../../media/Jeremy.jpg" mime-type="image/jpeg"/></media>
+				</figure></para>
+		</section>
+		<section id="idp7068064">
+			<title>Acknowledgements</title>
+		
+		<para id="Aa34">
+			 Dr. Don H. Johnson for consultation &amp; book:  Array Signal Processing:  Concepts &amp; Techniques </para>
+		<para id="aasdf">  Dr. Richard Baraniuk for LabVIEW and direction </para>
+		<para id="ff234">  Varma, Krishnaraj:  “Time-Delay-Estimate Based Direction-of-Arrival Estimation for Speech in Reverberant Environments”  </para>
+		</section>
+
+	</content>
+</document>

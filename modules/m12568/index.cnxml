@@ -1,0 +1,49 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Microphone Array Simulation</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>f817c704-0d40-4b86-854b-863c5764babb</md:uuid>
+</metadata>
+
+  <content>
+		<section id="s10">
+			<title>Why Labview Simulation</title>
+			<para id="s11"><title>Reasons For Simulation</title>
+				Simulation of the microphone array is an integral step in verifying that the design and method of implementation behind the beamforming system are correct.  Additionally, Simulation allows one to easily change the paramaters of the system (number of microphones, type of signals, distance between microphones) so that the system can be optimized to the desired needs.  Simulation also allows for easy testing free of noise, uncertainty, and other errors.  Finally, simulation allows one to modify input signals on the fly and lets one instantaenously see if the system is working as planned.</para>
+			<para id="s12"><title>Reasons for Simulation in Labview</title>
+				There are many practical reasons why Labview is the ideal program to simulate array processing in.  Labviews graphical programming environment is perfect for this type of application.  The simple to use signal generator VIs and convenient output displays make controlling the results and modifying the inputs easly.  Additionally, with Labview the Simulation can be easily modified to work in real life (see next module).  By replacing the simulated signals with real life data acquiition, the same code is used for real-life implemenation of the array.  </para>
+		</section>
+		<section id="t10">
+			<title>Simulation Inputs</title>
+			<para id="t11">Four independent sinusoids are used as the inputs to the simulator.  Each of these sinusoids has its own frequency and direction of incidence.  The user of the simulator can modify these signals while the VI is running by simply rotating the knobs or entering new values.  To cut down on processing time, we decided to bandlimit the frequencies of the sinusoids from 800 to 1600 Hz.  There are other controls in the VI that allow the user to change this range, but we found that the simulations runs most smoothly at this range.  With four signals the simulator can be used to examine the major combinations of sinusoids that should be tested....different frequencies coming from different directions, similar frequencies coming from different directions, similar frequencies coming from the same direction, and varied frequencies coming from the same direction.  These four major categories can be used to show that the simulator does indeed work.  The figure below shows how the paramaters of the sinusoids are input in the VI.
+	</para>
+			<figure id="fig11">
+				<title>Input Signal Selection </title>
+				<media id="idp6679952" alt=""><image src="../../media/simulation_input.JPG" mime-type="image/jpeg"/></media>
+				<caption>Input Signal Selection </caption>
+			</figure>
+		</section>
+		<section id="z10">
+			<title>Simulation Front Panel</title>
+			<para id="z11">Below is a copy of the front panel of the simulation VI.  The "Angle to Listen To" knob is where the user selects the direction that they want to listen to.  The graph on top shows the magnitude of the various frequency components from the angle that they are looking at.  If a user wants to know from which direction a certain frequency compnent is propogating (or if there are two signals, the one witht he greatest amplitude), they can enter that frequency on the "Desired Frequency Knob".  The direction that the frequency of interest is coming from will then be displayed on the "Angle of Incidence" Meter.  Overall, this Front panel alllows the user to listen in different directions and determine the direction of an incoming frequency.  </para>
+			<example id="z111">
+				<title>Simple Example Using of Simulation</title>
+				<para id="z112">On the "Front Panel" figure below, we can see that the user is listening to signals coming from thirty degrees.   We can then deduce from the graph that a signal at 1300Hz is propograting from thirty degrees.  Based on the inputs above, this is exactly what we expect to see.   We can also tell from looking at the "Angle of Incidence" meter that a signal at 1050Hz is comign from rougly -25 degrees.  Again, this makes sense based on the above inputs.    </para>
+			</example>
+			<figure id="z12">
+				<title>FRONT PANEL</title>
+				<media id="idp9898656" alt=""><image src="../../media/front_panel.JPG" mime-type="image/jpeg"/></media>
+				<caption>FRONT_PANEL</caption>
+			</figure>
+		</section>
+		<section id="g10">
+			<title>Simulation Output</title>
+			<para id="g11">The final part of this Simulation VI is the ouptut.  The VI will display the incoming signal coming from the desired direction on the "Ouput Waveform" Graph.  In addition to to this graph, the Simulation will also play this output waveform as audio.  Doing so allows the user to hear the differnt sounds as they change their angle of interest.    <figure id="g12">
+					<title>OUTPUT WAVEFORM</title>
+					<media id="idp9162640" alt=""><image src="../../media/simulation_output.JPG" mime-type="image/jpeg"/></media>
+					<caption>OUTPUT WAVEFORM</caption>
+				</figure>
+			</para>
+		</section>
+
+  </content>
+  
+</document>

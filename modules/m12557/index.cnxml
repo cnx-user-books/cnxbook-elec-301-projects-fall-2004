@@ -1,0 +1,32 @@
+<document xmlns="http://cnx.rice.edu/cnxml" id="None" module-id="" cnxml-version="0.7">
+	<title>Spatial Frequency Analysis</title>
+	<content>
+		<section id="s40">
+			<title>Aliasing in the Spatial Frequency Domain</title>
+			<para id="p40"><title>Avoiding Spatial Aliasing</title>As we saw was the case in the time domain, a phenomenon known as <link document="m10793">aliasing</link> can occur in the frequency domain if signals are not sampled at high enough rate.  We have the same sort of considerations to take into account when we want to analyze the spectrum of the spatial frequency as well.  As was discussed in the <link document="m12561">introduction</link>, the Nyquest equivalent of the sampling rate is 1/2 of the <emphasis>minimum</emphasis> wavelength.  This comes about from the relationship between speed, frequency and wavelength, which was discussed in the introduction as well.  The figure below demonstrates the effects of aliasing in the spatial domain; it looks identical to filtering the time domain except that instead of the x-axis being related to pi/T it is now pi/d, where d is the distance between sensors.  So, if we bandlimit our signal in temporal frequency, so that we can sample as two times the maximum <emphasis>temporal</emphasis> frequency, and if we design the sensors so that half of the minimum wavelength is greater than distance between sensors, we can avoid aliasing in both time and space! <figure id="fig1">
+					<media id="idm8153248" alt=""><image src="../../media/aliasing.jpg" mime-type="image/jpeg"/></media>
+					<caption>Spatial Aliasing</caption>
+				</figure></para>
+		</section>
+		<section id="s41">
+			<title>Spatial Frequency Transform</title>
+			<para id="p41"><title>Introduction to the Spatial Frequency Transform</title>Analogous to the <link document="m10249">DFT</link>, is the sampled and windowed spatial equivalent, which is what we used to be able to filter our signal in frequency.  The reason we want the information in the spatial frequency or wavenumber domain is because it is directly correlated to the angle the signal is coming from relative to the ULA.  The spatial DFT is computed as the FFT of the first FFT.  The first FFT represents the time domain frequency response and the second FFT represents the wavenumber response.  This seems strange this would work, but let's explore this a little more fully.  Let's look at theoretical example.</para>
+			<example id="e41">
+				<title> Mentally Visualizing the Spatial Frequency Transform</title>
+				<para id="p42"><title>The 2-D Transform</title>Consider a box filled with numbers.  The box is labeled on one edge time and on the other edge space.  The first FFT we are taking is to obtain the temporal frequencies, so this would be like looking at a row along the box and taking the FFT of the numbers going across, while the spatial FFT would be calculated by looking at the numbers going down the columns.  This is done repeatedly on each row and column, so the first FFT would go across each row, while the 2nd one would go down each column.  This is easier to comprehend with a picture like the one below.<figure id="fig2">
+						<media id="idp865856" alt=""><image src="../../media/2d_fft.gif" mime-type="image/gif"/></media>
+						<caption>Visualization of mapping a signal into Spatial &amp; Temporal Frequencies</caption>
+					</figure></para>
+			</example>
+		</section>
+		<para id="p43"><title>SFT with Sinusoids</title>Since we were interested in detecting sinusoids, it would be interesting to consider what this kind of "double" Fourier Transform would do to a sinusoid.  From our list of <link document="m10099">Fourier Transforms</link> we know that the FFT of a sinusoid will give us a delta function shifted by the frequency of the sinusoid.  We then see that the FFT of a delta function is 1, which would mean that we get the equivalent of white noise in spatial frequency!  Fortunately, this is not exactly how the spatial FFT works.  We are basically taking the FFT across one set of  vectors followed by the FFT down the columns of those vectors, we are NOT taking the FFT(FFT(f(x,t)).  So, when we accomplish this sort of arrangement on our signal, f(x,t), we get:<figure id="f43">
+				<media id="idm1493216" alt=""><image src="../../media/graphafterspatialfft.JPG" mime-type="image/jpeg"/></media>
+				<caption>Spatial FFT of a Sinusoid</caption>
+			</figure></para>
+		<para id="p44">                                                                                                                                           A sinc function!</para>
+		<section id="s42">
+			<title>Spatial Domain Filtering</title>
+			<para id="p45">Just as we are able to filter signals in <emphasis>temporal</emphasis> frequency, we can filter signals in <emphasis>spatial </emphasis>frequency.  In fact, the way we accomplished the direction detecting algorithm in labview used a graph very similiar as the one above and then looking for the largest magnitude part of the signal.  Once, this value is known, quick computation can then find the angle that signal came from!  Ta da!  We're done!  Well, sort of.</para>
+		</section>
+	</content>
+</document>

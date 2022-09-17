@@ -1,0 +1,129 @@
+<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en" authors="Richard Baraniuk ,Rice University ELEC 301">
+  <metadata xmlns:md="http://cnx.rice.edu/mdml" mdml-version="0.5">
+    <md:content-id>col10379</md:content-id>
+    <md:title>ELEC 301 Projects Fall 2004</md:title>
+    <md:language>en</md:language>
+    <md:license url="http://creativecommons.org/licenses/by/2.0/">Creative Commons Attribution License</md:license>
+    <md:uuid>3708f6fe-df81-4a19-b1e8-63a93bd92b39</md:uuid>
+<md:slug>elec-301-projects-fall-2004</md:slug>
+</metadata>
+  <col:content>
+    <col:subcollection>
+      <md:title>Array Signal Processing</md:title>
+      <col:content>
+        <col:module document="m12561"/>
+        <col:module document="m12563"/>
+        <col:module document="m12562"/>
+        <col:module document="m12564"/>
+        <col:module document="m12557"/>
+        <col:module document="m12565"/>
+        <col:module document="m12568"/>
+        <col:module document="m12569"/>
+        <col:module document="m12570"/>
+        <col:module document="m12571"/>
+        <col:module document="m12566"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Iris Recognition</md:title>
+      <col:content>
+        <col:module document="m12488"/>
+        <col:module document="m12487"/>
+        <col:module document="m12489"/>
+        <col:module document="m12492"/>
+        <col:module document="m12493"/>
+        <col:module document="m12495"/>
+        <col:module document="m12496"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Radar Jammer in MATLAB</md:title>
+      <col:content>
+        <col:module document="m12575"/>
+        <col:module document="m12576"/>
+        <col:module document="m12577"/>
+        <col:module document="m12578"/>
+        <col:module document="m12579"/>
+        <col:module document="m12580"/>
+        <col:module document="m12581"/>
+        <col:module document="m12582"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Optimization of Image Recognition: Fingerprint Matching</md:title>
+      <col:content>
+        <col:module document="m12573"/>
+        <col:module document="m12574"/>
+        <col:module document="m12572"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Face Recognition using Eigenfaces</md:title>
+      <col:content>
+        <col:module document="m12534"/>
+        <col:module document="m12558"/>
+        <col:module document="m12535"/>
+        <col:module document="m12531"/>
+        <col:module document="m12532"/>
+        <col:module document="m12533"/>
+        <col:module document="m12536"/>
+        <col:module document="m12530"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Speech Synthesis</md:title>
+      <col:content>
+        <col:module document="m12553"/>
+        <col:module document="m12539"/>
+        <col:module document="m12555"/>
+        <col:module document="m12552"/>
+        <col:module document="m12556"/>
+        <col:module document="m12554"/>
+        <col:module document="m12551"/>
+        <col:module document="m12550"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Instrument and Note Identification</md:title>
+      <col:content>
+        <col:module document="m12462"/>
+        <col:module document="m12461"/>
+        <col:module document="m12465"/>
+        <col:module document="m12463"/>
+        <col:module document="m12464"/>
+        <col:module document="m12466"/>
+        <col:module document="m12467"/>
+        <col:module document="m12485"/>
+        <col:module document="m12486"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Seismic Imaging</md:title>
+      <col:content>
+        <col:module document="m12497"/>
+        <col:module document="m12506"/>
+        <col:module document="m12507"/>
+        <col:module document="m12504"/>
+        <col:module document="m12522"/>
+        <col:module document="m12499"/>
+        <col:module document="m12508"/>
+        <col:module document="m12500"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Methods for Voice Conversion</md:title>
+      <col:content>
+        <col:module document="m12479"/>
+        <col:module document="m12470"/>
+        <col:module document="m12472"/>
+        <col:module document="m12469"/>
+        <col:module document="m12473"/>
+        <col:module document="m12474"/>
+        <col:module document="m12476"/>
+        <col:module document="m12475"/>
+        <col:module document="m12477"/>
+        <col:module document="m12478"/>
+      </col:content>
+    </col:subcollection>
+  </col:content>
+</col:collection>

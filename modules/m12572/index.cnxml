@@ -1,0 +1,77 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>You Are Cleared for Access...</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>419d863c-8215-4486-bc42-1ab16ae8321b</md:uuid>
+</metadata>
+
+  <content>
+<section id="Scan">
+<title>Scanning...</title>
+
+    <para id="Final">
+From all the methods we used to identify and match images, we obtained the following results:
+       <figure id="Result">
+	    <title>Results of Various Matching Processes</title>
+	    <media id="idm134208" alt=""><image src="../../media/results.JPG" mime-type="image/jpeg"/></media>
+	    <caption> These are the correlations between various reference images (A1-D1) and our scanned images.</caption>
+	  </figure> 
+<note id="idp5721136"> that the Minutiae-Based Approach was not considered in the results because of time issues and complexity. </note>
+All of the results seem pretty similar except for the calculation times and the "False Positive" correlation.  That is, depending on the image and method, the number of images that reported a "match" in the case of a non-match decreased between the two equivalent domain methods, and the Rotation+FFT Method.  Image D1 also seems to be a fluke, since it reported perfect correlation and false positve matching.
+    </para> 
+ 
+</section> 
+
+<section id="Error">
+<title> Error.  You are not in the database.</title>
+<para id="e">
+Fingerprint matching is not always a straightforward process with definite steps.  Many different problems can arise to hamper the process such as, lack of proper scanning equipment, slow computers, and sheer size of a database.  The main problem that arose, however, was the implementation of the Minutiae-based Method.  This method is more along the lines of what security agencies like the FBI use, and their technology and algorithms are much more sophisticated than the simple tools we have to use.  The complexity of implementing such a process was beyond our programming capabilities in Matlab and beyond our time frame given to work.  Given more time and resources, our group might have been able to implement such a method.
+</para>
+</section>
+
+<section id="Conclusions">
+<title> Match Found. You May Proceed...</title>
+<para id="last">
+As a result of our research we have come to the following conclusions:
+<list id="Steps">
+	    
+	    <item> Image quality plays a huge role in match probability
+</item> 
+	    <item>Frequency domain analysis is generally faster for image recognition processes</item> 
+<item> The addition of the rotational matrix improved match probability and decreased error since it sweeps over various orientations of image
+
+</item>
+	    	  </list>
+
+
+Some suggestions for further research include better classification algorithms, higher resolution scanners, and better unique feature data extraction.
+The most "optimal" method of matching images would be a combination of the Minutiae-based approach and the Rotation+FFT Method.  This, however, can only be had with better technology and time.  The normal tradeoff in the matching process is <emphasis>Time to Complete vs. Efficiency/Precision in Matching</emphasis>.  When we consider this fact, the optimal case to use in signal processing matching is the <term> Rotation + FFT Method </term>.
+</para>
+</section>
+
+<section id="Ack">
+<title> Acknowledgements</title>
+<para id="cite">
+We would like to thank and acknowledge the following people and sources:
+
+<list id="People">
+	    
+	    <item>Rice Univ. Dept. of Electrical Engineering: 
+Dr. Richard Baraniuk, William Chan, Chris Rozell </item> 
+	    <item>Previous Elec 301 Groups (2002 - Fresh Prints of Rice, 2000 - Fingerprint Matching)</item> 
+<item> Cain Project: Dr. Linda Driskil</item>
+<item>National Institute of Standards and Technology</item>
+<item>Pattern Recognition and Image Processing Lab
+Department of Computer Science And Engineering
+Michigan State University: Umut Uludag and Anil Jain 
+</item>
+	    	  </list>
+
+
+</para>
+
+<para id="Gang"><title>Group Fingerprint: Scott Harrison, Brent Carroll, and Jeremy Beasley</title>
+
+</para>
+</section>
+  </content>
+  
+</document>

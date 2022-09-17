@@ -1,0 +1,228 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Array Signal Processing:  An Introduction</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>4afd8531-b0f6-40ca-b3de-11cf711e4b1d</md:uuid>
+</metadata>
+
+  <content>
+    <section id="s01">
+			<title>Introduction and Abstract</title>
+			<para id="p01">Array signal processing is a part of signal processing that uses sensors that are organized in patterns, or arrays, to detect signals and to determine information about them.  The most common applications of array signal processing involve detecting acoustic signals, which our project investigates.  The sensors in this case are microphones and, as you can imagine, there are many ways to arrange the microphones.  Each arrangement has advantages and drawbacks based on what it enables the user to learn about signals that the array detects.  We began the project with the goal of using an array to listen to relatively low frequency sounds (0 to 8 kHz) from a specific direction while attenuating all sound not from the direction of interest.  Our project demonstrates that the goal, though outside the capabilities of our equipment, is achievable and that it has many valuable applications.</para>
+			<para id="p02">Our project uses a simple but fundamental design.  We created a six-element uniform linear array, or (<link target-id="'fig01'">ULA</link>), in order to determine the direction of the source of specific frequency sounds and to listen to such sounds in certain directions while blocking them in other directions.  Because the ULA is one dimensional, there is a surface of ambiguity on which it is unable to determine information about signals.  For example, it suffers from '<link target-id="'fig02'">front-back ambiguity</link>,' meaning that signals incident from 'mirror locations' at equal angles on the front and back sides of the array are undistinguishable.  Without a second dimension, the ULA is also unable to determine how far away a signal's source is or how high above or below the array's level the source is.<figure id="fig01">
+					<title>Uniform Linear Array</title>
+					<media id="idm400656" alt=""><image src="../../media/ula_pic_winfo.bmp" mime-type="image/bmp"/></media>
+					<caption>The ULA is the simplest array design, though it has limitations.</caption>
+				</figure>When constructing any array, the design specifications should be determined by the properties of the signals that the array will detect.  All acoustic waves travel at the speed of sound, which at standard temperature and pressure of 0 degrees celsius and 1 atm, is defined as :<equation id="cdefn"><m:math>
+   <m:apply>
+      <m:equivalent/>
+	<m:ci>c</m:ci>
+	<m:apply>
+	   <m:times/>
+	    <m:cn>330.7</m:cn>
+                <m:apply>
+                   <m:divide/>
+                        <m:ci>m</m:ci>
+                        <m:ci>s</m:ci>
+                 </m:apply>
+            </m:apply>
+</m:apply>
+</m:math>
+</equation>  The physical relationship describing acoustic waves is similar to that of light:  
+<m:math>
+ <m:apply>
+   <m:eq/>
+     <m:apply>
+     <m:times/>
+       <m:ci>λ</m:ci>
+       <m:ci>f</m:ci>
+     </m:apply>
+     <m:ci>c</m:ci>
+ </m:apply>
+</m:math>.  The frequencies of signals that an array detects are important because they determine constraints on the spacing of the sensors.  The array's sensors sample incident signals <emphasis>in space</emphasis> and, just as aliasing occurs in analog to digital conversion when the sampling rate does not meet the Nyquist criterion, aliasing can also happen in space if the sensors are not sufficiently close together.</para>
+			<para id="p03">A useful property of the ULA is that the delay from one sensor to the next is uniform across the array because of their equidistant spacing.  Trigonometry reveals that the additional distance the incident signal travels between sensors is 
+<m:math>
+ <m:apply>
+   <m:times/>
+   <m:ci>d</m:ci>
+   <m:apply>
+    <m:sin/>
+    <m:ci>θ</m:ci>
+   </m:apply>
+ </m:apply>
+</m:math>
+.  Thus, the time delay between consecutive sensors is given by:<equation id="taudefn">
+<m:math>
+ <m:apply>
+   <m:eq/>
+     <m:ci>τ</m:ci>
+     <m:apply>
+       <m:times/>
+         <m:apply>
+           <m:divide/>
+             <m:ci>d</m:ci>
+             <m:ci>c</m:ci>
+         </m:apply>
+         <m:apply> 
+          <m:sin/>
+          <m:ci>θ</m:ci>
+         </m:apply>
+    </m:apply>
+ </m:apply>
+</m:math>
+</equation>  Say the highest narrowband frequency we are interested is 
+<m:math>
+<m:semantics>
+  <m:msub>
+   <m:mi>f</m:mi>
+   <m:mi>max</m:mi>
+  </m:msub>
+ </m:semantics>
+</m:math>
+.  To avoid spatial aliasing, we would like to limit phase differences between spatially sampled signals to 
+<m:math>
+ <m:ci>π</m:ci>
+</m:math>
+ or less because phase differences above 
+<m:math>
+ <m:ci>π</m:ci>
+</m:math>
+ cause incorrect time delays to be seen between received signals.  
+Thus, we give the following condition:
+<equation id="taueqn1">
+<m:math>
+<m:semantics>
+  <m:mrow>
+   <m:mrow>
+    <m:mn>2</m:mn>
+    <m:mo>⁢</m:mo>
+    <m:mi>π</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:msub>
+     <m:mi>τf</m:mi>
+     <m:mi>max</m:mi>
+    </m:msub>
+   </m:mrow>
+   <m:mo>≤</m:mo>
+   <m:mi>π</m:mi>
+  </m:mrow>
+ </m:semantics>
+</m:math>
+</equation>
+Substituting for 
+<m:math>
+ <m:ci>τ</m:ci>
+</m:math>
+ in (2), we get
+<equation id="taucondwtheta">
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mi>d</m:mi>
+   <m:mo>≤</m:mo>
+   <m:mfrac>
+    <m:mrow>
+     <m:mi>c</m:mi>
+     <m:mo>⁢</m:mo>
+    </m:mrow>
+    <m:mrow>
+     <m:mn>2</m:mn>
+     <m:mo>⁢</m:mo>
+     <m:msub>
+      <m:mi>f</m:mi>
+      <m:mi>max</m:mi>
+     </m:msub>
+     <m:mrow>
+       <m:mi>sin</m:mi>
+      <m:mo>(</m:mo>
+      <m:mi>θ</m:mi>
+      <m:mo>)</m:mo>
+     </m:mrow>
+    </m:mrow>
+   </m:mfrac>
+  </m:mrow>
+ </m:semantics>
+</m:math>
+</equation>
+The worst delay occurs for 
+<m:math>
+ <m:apply>
+   <m:eq/>
+   <m:ci>θ</m:ci>
+     <m:apply>
+     <m:times/>
+       <m:ci>90</m:ci>
+       <m:ci>°</m:ci>
+     </m:apply>
+ </m:apply>
+</m:math>
+, so we obtain the <term>fundamentally important condition</term>
+<equation id="dspatialaliasing">
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mi>d</m:mi>
+   <m:mo>≤</m:mo>
+   <m:mfrac>
+    <m:msub>
+     <m:mi>λ</m:mi>
+     <m:mi>min</m:mi>
+    </m:msub>
+    <m:mn>2</m:mn>
+   </m:mfrac>
+  </m:mrow>
+ </m:semantics>
+</m:math>
+</equation>
+for the distance between sensors to avoid signals aliasing in space, where we have simply used 
+<m:math>
+ <m:semantics>
+  <m:apply>
+  <m:eq/>
+  <m:msub>
+   <m:mi>λ</m:mi>
+   <m:mi>min</m:mi>
+  </m:msub>
+  <m:mfrac>
+   <m:mi>c</m:mi>
+   <m:msub>
+    <m:mi>f</m:mi>
+    <m:mi>max</m:mi>
+   </m:msub>
+  </m:mfrac>
+ </m:apply>
+ </m:semantics>
+</m:math>.
+<note id="angleconvention" type="">We refer to the direction perpendicular to the length of the array as the <term>broadside</term> of the array.  All angles to the right, or clockwise from the broadside are considered positive by convention up to 
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mrow>
+    <m:mo>+</m:mo>
+    <m:mn>90</m:mn>
+   </m:mrow>
+   <m:mo>⁢</m:mo>
+   <m:mo>°</m:mo>
+  </m:mrow>
+ </m:semantics>
+</m:math>.  All angles to the left, or counter-clockwise from the broadside are considered negative up to 
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mrow>
+    <m:mo>-</m:mo>
+    <m:mn>90</m:mn>
+   </m:mrow>
+   <m:mo>⁢</m:mo>
+   <m:mo>°</m:mo>
+  </m:mrow>
+ </m:semantics>
+</m:math>.</note>  Just think of spatial sampling in a similar sense as temporal sampling:  the closer sensors are, the more samples per unit distance are taken, analogous to a high sampling rate in time!<figure id="fig02">
+      					<title>Ambiguity of the ULA</title>
+					<media id="idm1440240" alt=""><image src="../../media/fb_ambiguity.JPG" mime-type="image/jpeg"/></media>
+					<caption>The ULA is unable to distinguish signals from it's front or back side, or signals above or below it.</caption>
+				</figure>
+			</para>
+			<para id="p04">The limitations of the ULA obviously create problems for locating acoustic sources with much accuracy.  The array's design is highly extensible, however, and it is an important building block for more complex arrays such as a cube, which uses multiple linear arrays, or more exotic shapes such as a circle.  We aim merely to demonstrate the potential that arrays have for acoustic signal processing.</para>
+		</section>
+  </content>
+  
+</document>

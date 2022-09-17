@@ -1,0 +1,114 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Classification of Images</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>360ab6f3-31eb-4017-9b40-984ca27e7f43</md:uuid>
+</metadata>
+
+  <content>
+<figure id="correl">
+	    <title>Full Correlation</title>
+	    <media id="idm453568" alt=""><image src="../../media/correl.jpg" mime-type="image/jpeg"/></media>
+	    <caption> This graph is the result of full correlation between two images.</caption>
+	  </figure> 
+
+<para id="intent">
+Now that we have tested both the time and frequency domains, we will look into ways the process can be optimized.  The first method is similar to the FFT Method already discussed.  However, to improve the robustness of the process, a <link url="http://mathworld.wolfram.com/RotationMatrix.html"> Rotation Matrix</link> can be added to the mix.  The second process involves non-signal processing procedures and classifying images according to their physical properties.
+</para>
+
+<section id="Straight">
+<title> Straightforward Matching through Signal Processing </title>
+<para id="FFT">
+The first method to improve the image matching process is the "FFT Method" already discussed, with one major addition: a <link url="http://mathworld.wolfram.com/RotationMatrix.html"> Rotation Matrix</link>.
+Normal Fourier analysis only works in two dimensions.  However, a scanned inmage will, more often than not, be oriented at a certain angle from the normal.  
+</para>
+<para id="Rotate"><title> Improved Correlation</title>
+
+Using the library of Matlab files at our disposal,  the scanned image is first "passed through" the rotational matrix to get an array of matrices.  Each matrix in this array corresponds to a different angular orientation. (The range of the angle can be user set.)  From this point, each matrix in the array is compared to the database image matrix.  Again, like in the FFT Method, the maximum point is obtained to find the point of highest correlation.  The matrix that contains the largest correlation is the angle that matches most closely to the database image.
+
+The process follows these steps:
+<list id="Rotational" list-type="enumerated">
+	    <title>FFT Method w/ Rotation Matrix</title>
+	    <item>Pass scanned image through a rotation matrix of user set range</item> 
+	    <item>Place each resultant orientation matrix into an array</item> 
+	    <item>Perform the FFT Method on each matrix in the array, against the database image</item>
+            <item>Identify the maximum value (highest correlation) and the matrix (image) that a "match" would correspond to.</item>
+	  </list> 
+
+Like the other processes this method comes with both advantages and disadvantages:
+<list id="Properties">
+	    <title>Properties of the Rotation + FFT Method</title>
+	    <item>Advantages: Much more robust and likely to get a match compared to the regular FFT method; Doesn't take as much time as Spatial Method</item> 
+	    <item>Disadvantages: While it doesn't take as much time as the spatial method, it is slower than the basic FFT method.  Also, as the number of increments in the angle range increase, the slower this method gets.  Has the potential to become slower than the spatial method. </item> 
+	    	  </list>
+
+</para>
+</section>
+
+<section id="Physical">
+<title> Classification by Physical Properties</title>
+<para id="Phys">
+The second form of optimizing classification is kind of a step in the opposiet direction from ordinary signal processing.  Whereas all the previous methods dealt with find the <emphasis>correlation</emphasis> between two photos, this type of classification is a <emphasis> minutiae-based approach </emphasis>.  This classification separates fingerprints into different types, as seen below.
+
+<figure id="pattern">
+	    <title>Fingerprint Types</title>
+	    <media id="idp1311680" alt=""><image src="../../media/patterns.jpg" mime-type="image/jpeg"/></media>
+	    <caption> These are the different types of fingerprint patters</caption>
+	  </figure> 
+
+From the initial classification of the fingerprint as a certain type, the image is then broken down into various components or properties.  These <emphasis> minutiae </emphasis> are then compared to similar properties of the database image.    
+<figure id="properties">
+	    <title>Properties of a Fingerprint</title>
+	    <media id="idp1841200" alt=""><image src="../../media/properties.jpg" mime-type="image/jpeg"/></media>
+	    <caption> Properties of a fingerprint when using a minutiae-based approach</caption>
+	  </figure> 
+<figure id="match">
+	    <title>Minutiae-Based Matching</title>
+	    <media id="idm6692240" alt=""><image src="../../media/match.jpg" mime-type="image/jpeg"/></media>
+	    <caption> When using a minutiae-based approach, individual properties of the fingerprint are matched, instead of using the correlation of values.</caption>
+	  </figure> 
+
+In theory, when used in conjunction with the Rotation + FFT Method, the minutiae_based approach will speed up the indentification/verification process.  The idea behind this theory is, that if an image is classified into a cetain type of fingerprint pattern, will only be compared to images in the database of the <emphasis> same </emphasis> type.  Then, the Rotation + FFT Method can be performed on this subset of images, instead so comparing the scanned image to the entire database.  <note type="Caveat" id="idp1014208"><label>Caveat</label>The database must be large for this fusion of methods to produce faster results.</note>
+
+</para>
+
+<para id="Adv">
+<list id="Properties2">
+	    <title>Properties of Minutiae-Based Method</title>
+	    <item>Advantages: Given the resources, this method is the best, with the highest matching capabilty; When used in conjunction with Fourier methods, can speed up the identification process. </item> 
+	    <item>Disadvantages: Has a large dependence on the image quality and size of the scanned fingerprints; Can be expensive in processor and monetary terms; Database must be large in order for this process to be effective. </item> 
+	    	  </list>
+</para>
+</section>
+
+<section id="Add">
+  <title> Additional Optimization </title>  
+<para id="Additional">
+       It has been shown how additional optimization schemes have helped distinct performance features of our biometric authentication process:  
+
+<list id="Features">
+	    
+	    <item>The frequency domain is the processing domain of choice due to the lower computational complexity thus greater computation speed. </item> 
+	    <item>The dynamic rotational matrix utilizes orientation shifts rather than vertical and horizontal shifts.  It was necessary to add this feature since the 2D-convolution is not a very robust scheme considering orientation shifts in fingerprint placements.  Although this method is more complex since it has the complexity of N*O(frequency domain) (O = computational complexity), it is a more robust method ensuring that carelessness of the end user does not result in unwanted errors. </item> 
+	    	  </list>
+	 
+While the strengths of these primary optimization schemes are clear, another optimization method was developed considering their weaknesses: <emphasis>deblurring method.</emphasis>  What happens if an image is scanned and the digital image is blurred such that the distinguishable ridges of the fingerprint can no longer be extracted?  Regardless of the computational advantages of the other methods, it can be shown that this roadblock is dependent on the technology used to implement the biometric solution.  Therefore, a deblurring method was developed to help minimize the dependency of the scanning technology used.  It is implemented by the following steps: 
+
+<list id="Steps">
+	    
+	    <item>Noise is simulated with a point spread function using MATLAB motion blur. </item> 
+	    <item>Deconvolution of the image and the simulated noise is then performed to obtain a “deblurred” image.</item> 
+	    	  </list>	  
+
+It is clear that the advantage of this optimization is that blurred images will be restored to a better state so that they can be matched.  However, it should be pointed out that this method is not a cure-all for lack of appropriate technology.  While this method will correct certain noise characteristics, it is also dependent on the level of blur of the image and the simulation of the noise of the image.  Therefore deblurring optimization should not be a crutch of the biometric solution but rather another level of error precaution.    
+
+Conclusively, each optimization individually possesses distinct advantages over the other.  However, given certain standard resources (i.e. processing power, physical memory, etc.), a very robust biometric solution can be implemented with these optimization tools.  
+
+    </para>  
+</section> 
+
+<para id="Final">
+For the final page in this series of modules, continue to the module "You Are Cleared for Access..."
+
+</para>
+  </content>
+  
+</document>

@@ -1,0 +1,131 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Labview Implementation</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>b23775ba-240a-4dd3-b1ba-05e6b3c83530</md:uuid>
+</metadata>
+
+  <content>
+		<section id="s20">
+			<title>Labview VIs Used in Simulation</title>
+			<para id="s21"><title>Top Level Diagram and Overall Organization</title>
+				The figure below is a  top level diagram of a six microphone array simulation VI.  This VI is named "Multiple Frequency Simulation"  Starting at the left with the signal generation, the code flows to the right.  This top VI is made out of smaller VIs that each perform a specific function.  Detailed descriptions of each of these can be found in the following paragraphs.  <figure id="fig211">
+					<title>Top Level Diagram (Multiple Frequency Simulation)</title>
+					<media id="idm8381968" alt=""><image src="../../media/top_level_VI.JPG" mime-type="image/jpeg"/></media>
+					<caption>Top Level Diagram</caption>
+				</figure>
+			</para>
+		</section>
+		<section id="s22">
+			<title>Simulated Signal Generation VI</title>
+			<figure id="idm1985952">
+				<title>Simulate Signal Icon</title>
+				<media id="idm1000304" alt=""><image src="../../media/untitled.JPG" mime-type="image/jpeg"/></media>
+				<caption>Simulate Signal Icon</caption>
+			</figure>
+		</section>
+		<para id="s222"><title>Signal Generation VI</title>
+			The above icon corresponds to the Signal Generation VI.   At the far left are  four signal generation VIs.  Each of these VIs produces six different signals that simulate the delayed signals that each of the microphones would hear in real life.  These six signals are then bunched together in a cluster (pink wire) to keep the amount of wires down.  The three inputs to this VI are the frequency of the sinusoid desired, the direction of the signal, and the distnace between microphones (9.9 cm in this example).   The user sets these paramaters on the front panel and is free to change them at any time.</para>
+		<para id="s223">Our VI uses the formula discussed in previous modules that relates the time delay of signals to the distance between microphones.   Using the  desired angle that the signal is coming from, the speed of sound (C), the distance between microphones, and a conversion between degrees and radians, the VI first computes the time delay between microphones.  Becuase we are interested in the delay between the first microphone and all others, the amount of delay is multiplied by zero for the first mic, one for the second mic, two for the third, and so on.  These delays are then used as phase inputs to the six identical Simulate Signal VIs.  Adding phase to a periodic signal like the sinusoids being used here has the same effect as delaying the signal in time.  Finally the six signals are merged together into a cluster so that they will be easier to deal with as a group in other VIs.  <figure id="idm10099040">
+				<title>Simulate Signal Block Diagram</title>
+				<media id="idm222000" alt=""><image src="../../media/simulate_signal.JPG" mime-type="image/jpeg"/></media>
+				<caption>Simulate Signal Block Diagram</caption>
+			</figure>
+		</para>
+		<para id="sasdfasdf1234">In this simulation we simulate four different frequencies and directions.  Once we have the data of these four separate signals, we sum the signals on each of the channels to get the final output on each of the microphones.   Doing so leaves us solely with what we would hear on the six microphones if this were set up in real life. If more signals are required for future testing or other applications, onc can simply copy and paste the signal generation VI and then sum it with the other signals.  </para>
+		<para id="s1233">Once this signal is comple, we move to the right in our VI. From here we branch into two separate areas.  Following the pink line up takes us to where we calculate the angle that a given frequency is coming from,and to the right is where we perform the calculations to listen to signals from a given direction.   </para>
+		<section id="tsfc21">
+			<title>Frequency and Spatial FFT Computation VIs</title>
+			<figure id="fig45">
+				<title>1rst FFT Icon (Time - Frequency)</title>
+				<media id="idm3006928" alt=""><image src="../../media/first_FFT_icon.JPG" mime-type="image/jpeg"/></media>
+				<caption>1rst FFT Icon</caption>
+			</figure>
+			<para id="sdf234"><title>1rst FFT VI</title>
+				In order to listen to a certain direction we first need to transform our signals from the microphone in to the frequency domain.  To do this we made the "1rst FFT" Vi (see icon above).  This sub-VI is fairly simple so there is no need to show the block diagram.  It takes the FFT of each of the six channels channels, transfroming the data from the time domain to the freqeuncy domain  For simulation, we looked at 1 second samples at 4000hz.  This VI then takes the FFTs of the six 4000 element long signals from the simulated microphones.  <figure id="idm376048">
+					<title>Six Point FFT Icon (Frequency  - Spatial)</title>
+					<media id="idm1074112" alt=""><image src="../../media/sixptffticon.JPG" mime-type="image/jpeg"/></media>
+					<caption>Six Point FFT  Icon(Frequency  - Spatial)</caption>
+				</figure>
+			</para>
+			<para id="s234"><title>Six Point FFT VI</title>
+				Moving to the right after the first FFT, we find the "6 pt FFT" VI.  This VI is used to transform our frequency domain data into the spatial domain.  This VI needs to run for every frequency of interest, so in the top level diagram this VI is found inside of a for loop.  The user can control what range of frequencies are of interest on the front panel of the main VI, and the loop will run for those frequencies.  </para>
+			<para id="s235">Inside this VI, the complex frequency coefficient for the given frequency is extracted from the array for each microphone channel.  These six values are then concantonated into a lengh six array.  Next, the array is zeropadded to a user specified length (we used 256 in our simulation) so more resolution can be observed in the resulting spatial transform.  Finally, the FFT is performed on these values transforming them into the spatial domain.  With the data in the spatial domain we are easily able to figure out the magnitude of any frequency from any direction in our 180 degrees of interest. How to do this can be found in the magnitude VI.     </para>
+			<figure id="idm10088976">
+				<title>Six Point FFT block Diagram (Frequency - Spatial)</title>
+				<media id="idm1993968" alt=""><image src="../../media/sixptfft2.GIF" mime-type="image/gif"/></media>
+				<caption>Six Point FFT block Diagram (Frequency - Spatial) </caption>
+			</figure>
+		</section>
+		<section id="guh435">
+			<title>Coefficient, Angle, and Magnitude Calculation VIs</title>
+			<figure id="idm10508336">
+				<title>Coefficient Calculator</title>
+				<media id="idm814160" alt=""><image src="../../media/coefficient_calculator_icon.JPG" mime-type="image/jpeg"/></media>
+				<caption>Coefficient Calculator</caption>
+			</figure>
+			<para id="guh2343"><title>Coefficient Calculator</title>
+				Now that the signals have been transformed to their spatial representations, the correct coefficients to construct the signal of interest must be computed.  To do this we created the Coefficient Calculator VI..  This VI takes in the angle of interest, a frequency, the number of microphones, a constant factor (determined by the setup of the microphones and the amount of zero padding...in this example it is -93), and our original sampling frequency to compute the correct coefficient to look at for the given angle.  Once this coefficient is found, we extract the value at that coefficient and append it to our ouptut array as the value at that given frequency.  Below is the block diagram for this VI. It consists of a basic formula node and some logic on the front and back to make sure that the calculations are correct when working with angles from negative directions.   </para>
+			<para id="guh234">Because this formula is dependent on the frequnecy of interest, we are required to run this VI for every frequency we are intereseted in.  In order to do this, we put this VI inside a for loop that is controlled by our frequency range.   Any coefficient for frequencies outside of this range are simply given a value of zero.  The array modules ouside of this for loop are used to do just that.  They append arrays with value zero on the front and back of the output of the for loop to return our vector to its original size.   From here, we run this vector through a few multiplies to amplify the differnce between the coefficients with high and low magnitudes, and finally we inverse FFT it to get our output array.  This array represents a signal in the time domain and is graphed on the front panel along with a graph of its frequency components.  We also included a small VI that will play the output waveform on computer speakers.  This VI uses a matlab script and requires the user to have matlab 6.5 or earlier.    <figure id="idm10105216">
+					<title>Magnitude Graph of Coefficients After Spatial FFT</title>
+					<media id="idm13487888" alt=""><image src="../../media/coefficient_calculator.JPG" mime-type="image/jpeg"/></media>
+					<caption>Magnitude Graph of Coefficients After Spatial FFT</caption>
+				</figure>
+				<figure id="idm9382544">
+					<title>Magniutde Calculation VI</title>
+					<media id="idm405248" alt=""><image src="../../media/magnitudeicon.JPG" mime-type="image/jpeg"/></media>
+					<caption>Magnitude Calculation VI</caption>
+				</figure>
+			</para>
+			<para id="coeff12"><title>Magnitude Calculation</title>
+				If we go back to the branch in the pink wire immediatly after the signal generation VIs and move upwards instead of to the right, we come across the code that is used to calculate the angle at which the largest magnitude signal of a given frequency is approaching the array.  Another "6 pt fft" VI is used, but this one is slightly modified.  It also includes the initial FFTs of all 6 channels.  We grouped these two VIs together because ony one spacial FFT is being computed (that at the frequeny of interest).</para>
+			<para id="parparp3224">The resulting vector of the previous six point FFT is immediately used as the input to the Magnitude Calculation VI.  The vecor of spatial coefficients from the "six pt FFT" vis are complex, so this VI is used to calculate the magnitudes of the coefficients so the maximum coefficient can be found.  The output of this VI is also used to create a visual representation of what direction the specified frequency is coming from.  Below is a graph of the magnitude of the coefficients of the spatial FFT.  As discussed before, we see the peak correspoinding to the incoming direction and the smaller ripples to each side.  <figure id="idm243488">
+					<title>Magnitude Graph of Coefficients After Spatial FFT</title>
+					<media id="idp243760" alt=""><image src="../../media/graphafterspatialfft.JPG" mime-type="image/jpeg"/></media>
+					<caption>Magniutde of Coefficients after Spatial FFT</caption>
+				</figure>
+			</para>
+			<example id="ex23423">
+				<title>Magnitude Graph Example</title>
+				<para id="e23432234">As we can see in the previous figure, the magnitude of the spatial FFT is greatest around coefficient 82.  There are also smaller ripples that die off around each end.  This graph tells us that the the direction that the given frequency is coming from corresponds to the angle represneted by coefficient 82.  To figure out what angle this was, we would use our Coefficient to Angle VI.    </para>
+			</example>
+			<para id="o2342"><title>Calculation of Angle</title>
+				Finally, we isolate the index of the maximum angle and use it to compute the angle of incidence.  Using the same formula used in the Coefficient Angle Calculator, the Coefficient to Angle VI deduces the angle of incidence.  This VI uses the same formula found in the Coefficient Angle Calculator, but is arranged differently so that we can find the angle based on the coefficient instead of the coefficient  based on the angle.   Once the VI computes this value, the result is output on the front panel.  </para>
+			<section id="l12312312">
+				<title>Links to Labview Code</title>
+				<list list-type="bulleted" id="fsdfsdf234">
+					<item>
+						<link resource="Multiple_Frequency_Simulation.vi">Multiple FrequencySimulation (Top Level VI)</link>
+					</item>
+					<item>
+						<link resource="Coefficient_Calculator.vi">Coefficient Calculator</link>
+					</item>
+					<item>
+						<link resource="Incident_Angle_Calculator.vi">Incident Angle Calculator</link>
+					</item>
+					<item>
+						<link resource="play_array_anything.vi">Play Array</link>
+					</item>
+					<item>
+						<link resource="Six_Point_FFT_with_first_fft.vi">Six Point FFT (with first fft)</link>
+					</item>
+					<item>
+						<link resource="Six_Point_FFT_without_first_fft.vi">Six Point FFT (without first fft)</link>
+					</item>
+					<item>
+						<link resource="Magnitude_Calculation.vi">Magnitude Calculation</link>
+					</item>
+                                        <item>
+                                                <link resource="First_FFT.vi"> First FFT</link>
+                                        </item>
+                                        <item>
+                                                <link resource="Simulated_Input.vi"> Simulate Signal</link>
+                                        </item>
+				</list>
+			</section>
+		</section>
+		<section id="ccr2342344234234234">
+			<title>Code Remarks</title>
+			<para id="s234223">Overall, the code involved in this method of array signal processing can be broken up into smaller parts that are easy to understand.  By combining these smaller parts we are able to create an upper level VI that performs a complicated task that would be difficult to get working using other methods.  The major problem with this VI is that it requires a large number of calculations.   To increase performance (without upgrading computers) one could decrease the frequency range of interest, or they could lower the amount of zeropadding.  They could aslo look at a smaller time period.</para>
+		</section>
+  </content>
+  
+</document>

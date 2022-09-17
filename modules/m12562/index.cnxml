@@ -1,0 +1,512 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Developing the Array Model and Processing Techniques</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>a94a1ebd-fc44-42e6-b696-e02fc9176175</md:uuid>
+</metadata>
+
+  <content>
+    <para id="p01">We continue to develop the properties for the uniform linear array (ULA) that has been discussed <link document="m12561">previously</link>.  With the important relationship that we found to avoid spatial aliasing, <m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mi>d</m:mi>
+   <m:mo>≤</m:mo>
+   <m:mfrac>
+    <m:msub>
+     <m:mi>λ</m:mi>
+     <m:mi>min</m:mi>
+    </m:msub>
+    <m:mn>2</m:mn>
+   </m:mfrac>
+  </m:mrow>
+ </m:semantics>
+</m:math>, we now consider the theoretical background of the ULA.  Once we understand how the array will be used, we will look at a method called 'beamforming' that directs the array's focus in specific directions.</para>
+		<section id="s01">
+			<title>Far-field Signals</title>
+			<para id="p02">We saw previously that a very nice property of the ULA is the constant delay between the arrival of a signal at consecutive sensors.  This is only true, however, if we assume that plane waves arrive at the array.  Remember that sounds radiate spherically outward from their sources, so the assumption is generally not true!  To get around that problem, we only consider signals in the <term>far-field</term>, in which case the signal sources are far enough away that the arriving sound waves are essentially planes over the length of the array.<definition id="farfield">
+					<term>Far-field source</term>
+					<meaning id="idp6994608">A source is considered to be in the far-field if 
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mi>r</m:mi>
+   <m:mo>&gt;</m:mo>
+   <m:mfrac>
+    <m:mrow>
+     <m:mn>2</m:mn>
+     <m:mo>⁢</m:mo>
+     <m:msup>
+      <m:mi>L</m:mi>
+      <m:mn>2</m:mn>
+     </m:msup>
+    </m:mrow>
+    <m:mi>λ</m:mi>
+   </m:mfrac>
+  </m:mrow>
+ </m:semantics>
+</m:math>, where r is the distance from the source to the array, L is the length of the array, and 
+<m:math>
+  <m:ci>λ</m:ci>
+</m:math> is the wavelength of the arriving wave.
+						</meaning>
+				</definition>
+If you have an array and sound sources, you can tell whether the sources are in the far-field based on what angle the array estimates for the source direction compared to the actual source direction.  If the source is kept at the same angle with respect to the broadside and moved further away from the array, the estimate of the source direction should improve as the arriving waves become more planar.  Of course, this only works if the array is able to accurately estimate far-field source directions to begin with, so use the formula first to make sure that everything works well in the far-field, and then move closer to see how distance affects the array's performance.
+				</para>
+			<para id="p03">Near-field sources are beyond the scope of our project, but they are not beyond the scope of array processing.  For more information on just about everything related to array processing, take a look at <emphasis>Array Signal Processing:  Concepts and Techniques</emphasis>, by Don H. Johnson and Dan E. Dudgeon, Englewood Cliffs, NJ: Prentice Hall, 1993.
+                                </para>
+		</section>
+		<section id="s02">
+			<title>Array Properties</title>
+			<para id="p04">Depending on how the array will be used, it may be important (as it was in our project) that the microphones used be able to receive sound from all directions.  We used <term>omni-directional</term> microphones, which are exactly what they sound like -- microphones that hear in all directions.  If you don't need this ability, you can look into other options, but keep in mind that the theoretical development here assumes omni-directional capability, so you will need to do some research on array processing techniques that suit your needs.  In fact, it would be a good idea no matter what!  Our project used a simple array design, but it took a while to learn all of the theory and to figure out how to implement it.</para>
+			<para id="p05">Our array comprises six generic omni-directional microphones.  We built an array frame out of PVC pipe to hold each microphone in place with equidistant spacing between the sensors.  Physical limitations of the microphones and PVC connecting pieces prevented us from using a very small spacing; for our array, we had a sensor spacing of d=9.9 cm.  Since we know that we need to have 
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:mi>d</m:mi>
+   <m:mo>≤</m:mo>
+   <m:mfrac>
+    <m:msub>
+     <m:mi>λ</m:mi>
+     <m:mi>min</m:mi>
+    </m:msub>
+    <m:mn>2</m:mn>
+   </m:mfrac>
+  </m:mrow>
+ </m:semantics>
+</m:math> to avoid spatial aliasing, we are able to calculate the highest frequency that the array is capable of processing:  
+<m:math>
+ <m:semantics>
+ <m:apply>
+   <m:eq/>
+     <m:msub>
+     <m:mi>f</m:mi>
+     <m:mi>max</m:mi>
+     </m:msub>
+     <m:mrow>
+   <m:mn>1600</m:mn>
+   <m:mo>⁢</m:mo>
+   <m:mi>Hz</m:mi>
+  </m:mrow>
+ </m:apply>
+ </m:semantics>
+</m:math>.  (Actually, 
+<m:math>
+ <m:semantics>
+     <m:msub>
+     <m:mi>f</m:mi>
+     <m:mi>max</m:mi>
+     </m:msub>
+ </m:semantics>
+</m:math> is a little higher than 1600 Hz as you can verify, but to be on the safe side we kept it a bit lower.)</para>
+			<para id="p06">If you want to have any chance of figuring out some useful information about a signal, particularly in real-time, you're going to have to ditch the pencil and paper for some electronic equipment.  We used National Instruments' LabVIEW 7.1 to do all of our signal processing, although we performed some analog conditioning on the received signal before the analog to digital conversion (ADC).  We also used National Instruments' 6024e data acquisition card to digitize the signal.  This is a multiplexed ADC with a total sampling capacity of 200 kHz that divides between the number of inputs.  Therefore, with six sensor inputs, we could sample the signals received at each microphone at a maximum rate of 33.3 kHz.  Since twice the Nyquist rate for speech is about 44.1 kHz, this is not a good DAQ for speech applications; however, it would have worked for our original plan to listen to low frequency sound in the 0 to 8 kHz range.  As it turns out, since our array can process a maximum frequency of 1600 Hz, we chose to sample at 
+<m:math>
+ <m:semantics>
+ <m:apply>
+   <m:eq/>
+     <m:msub>
+     <m:mi>f</m:mi>
+     <m:mi>s</m:mi>
+     </m:msub>
+     <m:mrow>
+   <m:mn>4000</m:mn>
+   <m:mo>⁢</m:mo>
+   <m:mi>Hz</m:mi>
+  </m:mrow>
+ </m:apply>
+ </m:semantics>
+</m:math>, which exceeds the Nyquist requirement and is well within the capability of our DAQ.</para>
+			<para id="p07">All of these properties generealize to determining the design of any ULA or the design of any array, though other designs may have greater capabilities and thus would require that you consider additional signal properties (e.g., signal elevation above or below the array) and how they affect the array.  If you need a starting point, think about the range of frequencies that you are interested in and get equipment that is capable of processing them.  That includes an ADC that can sample at a high enough rate to avoid temporal aliasing and the materials to construct an array such that spatial aliasing will not occur.  You will probably have to do some pre-conditioning of the signal before you digitize it, such as lowpass filtering to reject frequencies above those you are interested in and applying a gain to the input signals.  These are all important things to think about when you design your array!</para>
+		</section>
+		<section id="s03">
+			<title>ULA Processing Fundamentals</title>
+			<para id="p08">Now it's time to look at the theory that we need to implement for a ULA that enables us to figure out where signals come from and to listen to them.  We are considering narrowband signals (i.e., sinusoids) of the form 
+<equation id="rcvdsigs">
+<m:math>
+ <m:semantics>
+  <m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:mi>x</m:mi>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>t</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+  <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mi>j2πf</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mi>t</m:mi>
+   </m:mrow>
+  </m:msup>
+  </m:apply>
+ </m:semantics>
+</m:math>
+</equation>where f is the frequency of the signal.  If we have N sensors numbered from n=0,...,N-1, then the delayed versions of x(t) that arrive at each microphone n are 
+
+<equation id="rcvddelayedsigs">
+<m:math>
+ <m:semantics>
+<m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:msub>
+    <m:mi>x</m:mi>
+    <m:mi>n</m:mi>
+   </m:msub>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>t</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+  <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mi>j2πf</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mrow>
+     <m:mo>(</m:mo>
+     <m:mrow>
+      <m:mi>t</m:mi>
+      <m:mo>-</m:mo>
+      <m:mi>nτ</m:mi>
+     </m:mrow>
+     <m:mo>)</m:mo>
+    </m:mrow>
+   </m:mrow>
+  </m:msup>
+  </m:apply>
+ </m:semantics>
+</m:math>
+</equation>Thus, the first sensor (n=0) has zero delay, while the signal arrives at the second sensor (n=1) one unit delay later than at the first, and so on for each sensor.  Then, we sample the signal at each microphone in the process of ADC, and call 
+<m:math>
+ <m:semantics>
+<m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:msub>
+    <m:mi>x</m:mi>
+    <m:mi>n</m:mi>
+   </m:msub>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>r</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+ <m:mrow>
+  <m:msub>
+    <m:mi>x</m:mi>
+    <m:mi>n</m:mi>
+   </m:msub>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:apply>
+  <m:times/>
+    <m:mi>m</m:mi>
+    <m:mi>T</m:mi>
+  </m:apply>
+  <m:mo>)</m:mo>
+ </m:mrow>
+</m:apply>
+</m:semantics>
+</m:math>
+, where m is the integers.  This gives us the sampled sinusoids at each sensor:  
+<equation id="sampledrcvdsigs">
+<m:math>
+ <m:semantics>
+<m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:msub>
+    <m:mi>x</m:mi>
+    <m:mi>n</m:mi>
+   </m:msub>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>r</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+  <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mi>j2πf</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mrow>
+     <m:mo>(</m:mo>
+     <m:mrow>
+      <m:mi>r</m:mi>
+      <m:mo>-</m:mo>
+      <m:mrow>
+       <m:mi>n</m:mi>
+       <m:mo>⁢</m:mo>
+       <m:mi>τ</m:mi>
+      </m:mrow>
+     </m:mrow>
+     <m:mo>)</m:mo>
+    </m:mrow>
+   </m:mrow>
+  </m:msup>
+ </m:apply>
+ </m:semantics>
+</m:math>
+</equation>
+</para>
+			<para id="p09">Now we need to do some Fourier transforms to look at the frequency content of our received signals.  Even though each sensor receives the same frequency signal, recall that delays 
+<m:math>
+ <m:mrow>
+  <m:mi>x</m:mi>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mrow>
+   <m:mi>t</m:mi>
+   <m:mo>-</m:mo>
+   <m:apply>
+   <m:times/>
+   <m:mi>n</m:mi>
+   <m:mi>τ</m:mi>
+   </m:apply>
+  </m:mrow>
+  <m:mo>)</m:mo>
+ </m:mrow>
+</m:math> in time correspond to modulation by 
+<m:math>
+ <m:semantics>
+  <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mrow>
+     <m:mo>-</m:mo>
+     <m:mi>j</m:mi>
+    </m:mrow>
+    <m:mo>⁢</m:mo>
+    <m:mi>n</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mi>τ</m:mi>
+   </m:mrow>
+  </m:msup>
+ </m:semantics>
+</m:math> in frequency, so the spectra of the received signals at each sensor are not identical.  The first Discrete Fourier Transform (DFT) looks at the temporal frequency content at each sensor:
+<equation id="temporaldft">
+<m:math>
+ <m:semantics>
+  <m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:msub>
+    <m:mi>X</m:mi>
+    <m:mi>n</m:mi>
+   </m:msub>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>k</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+  <m:apply>
+  <m:times/>
+  <m:mfrac>
+   <m:mn>1</m:mn>
+   <m:msqrt>
+    <m:mi>R</m:mi>
+   </m:msqrt>
+  </m:mfrac>
+  <m:mrow>
+   <m:munderover>
+    <m:mo>∑</m:mo>
+    <m:mrow>
+     <m:mi>r</m:mi>
+     <m:mo>=</m:mo>
+     <m:mn>0</m:mn>
+    </m:mrow>
+    <m:mrow>
+     <m:mi>R</m:mi>
+     <m:mo>-</m:mo>
+     <m:mn>1</m:mn>
+    </m:mrow>
+   </m:munderover>
+   <m:apply>
+   <m:times/>
+   <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mi>j2πf</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mrow>
+     <m:mo>(</m:mo>
+     <m:mrow>
+      <m:mi>r</m:mi>
+      <m:mo>-</m:mo>
+      <m:mrow>
+       <m:mi>n</m:mi>
+       <m:mo>⁢</m:mo>
+       <m:mi>τ</m:mi>
+      </m:mrow>
+     </m:mrow>
+     <m:mo>)</m:mo>
+    </m:mrow>
+   </m:mrow>
+  </m:msup>
+  <m:msup>
+  <m:mi>ⅇ</m:mi>
+  <m:mrow>
+   <m:mo>-</m:mo>
+   <m:mfrac>
+    <m:mrow>
+     <m:mi>j2</m:mi>
+     <m:mo>⁢</m:mo>
+     <m:mi>π</m:mi>
+     <m:mo>⁢</m:mo>
+     <m:mi>kr</m:mi>
+    </m:mrow>
+    <m:mi>R</m:mi>
+   </m:mfrac>
+  </m:mrow>
+ </m:msup>
+ </m:apply>
+  </m:mrow>
+  </m:apply>
+  </m:apply>
+ </m:semantics>
+</m:math>
+</equation>
+<equation id="tempdftresult">
+<m:math>
+<m:semantics>
+<m:apply>
+<m:eq/>
+<m:mfrac>
+  <m:msup>
+   <m:mi>ⅇ</m:mi>
+   <m:mrow>
+    <m:mrow>
+     <m:mo>-</m:mo>
+     <m:mi>j2</m:mi>
+    </m:mrow>
+    <m:mo>⁢</m:mo>
+    <m:mi>π</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mi>f</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mi>n</m:mi>
+    <m:mo>⁢</m:mo>
+    <m:mi>τ</m:mi>
+   </m:mrow>
+  </m:msup>
+  <m:msqrt>
+   <m:mi>R</m:mi>
+  </m:msqrt>
+ </m:mfrac>
+ </m:apply>
+ <m:mrow>
+  <m:mi>for</m:mi>
+  <m:mo>⁢</m:mo>
+  <m:apply>
+  <m:eq/>
+  <m:mi>k</m:mi>
+  <m:mi>fn</m:mi>
+  </m:apply>
+  <m:mo>⁢</m:mo>
+  <m:mi>and</m:mi>
+  <m:mo>⁢</m:mo>
+  <m:mi>zow</m:mi>
+ </m:mrow>
+ </m:semantics>
+</m:math>
+</equation>
+for k=fn, and zero otherwise.  Here we have used the definition of the normalized DFT, but it isn't particularly important whether you use the normalized or unnormalized DFT because ultimately the transform factors 1/Sqrt(R) or 1/R just scale the frequency coefficients by a small amount.</para>
+			<para id="p10">Now that we have N spectra from each of the array's sensors, we are interested to see how a certain frequency of interest fo is distributed spatially.  In other words, this <term>spatial Fourier transform</term> will tell us how strong the frequency fo for different angles with respect to the array's broadside.  We perform this DFT by taking the frequency component from each received signal that corresponds to fo and concatenating them into an array.  We then zero pad that array to a length that is a power of two in order to make the Fast Fourier Transform (FFT) computationally efficient.  (Every DFT that we do in this project is implemented as an FFT.  We use the DFT in developing the theory because it applies always, whereas the FFT is only for computers.)<note type="Point of Interest" id="zeropad"><label>Point of Interest</label>When we build the array of frequency components from each of the received signals, we have an N length array before we zero pad it.  Let's think about the <term>resolution</term> of the array, which refers to its ability to discriminate between sounds coming from different angles.  The greater the number of sensors in the array, the finer the array's resolution.  Therefore, what happens when we zero pad the array of frequency components?  We are essentially adding components from additional 'virtual sensors' that have zero magnitude.  The result is that we have improved resolution!  What effect does this have?  Read on a bit!.</note>Once we have assembled our zero padded array of components fo, we can perform the spatial DFT:
+<equation id="spatdft">
+<m:math>
+<m:semantics>
+<m:apply>
+  <m:eq/>
+  <m:mrow>
+  <m:mi>Ω</m:mi>
+  <m:mo>⁡</m:mo>
+  <m:mo>(</m:mo>
+  <m:mi>k</m:mi>
+  <m:mo>)</m:mo>
+ </m:mrow>
+<m:apply>
+<m:times/>
+<m:mfrac>
+  <m:mn>1</m:mn>
+  <m:msqrt>
+    <m:mi>NR</m:mi>
+  </m:msqrt>
+ </m:mfrac>
+  <m:mrow>
+   <m:munderover>
+    <m:mo>∑</m:mo>
+    <m:mrow>
+     <m:mi>n</m:mi>
+     <m:mo>=</m:mo>
+     <m:mn>0</m:mn>
+    </m:mrow>
+    <m:mrow>
+     <m:mi>N</m:mi>
+     <m:mo>-</m:mo>
+     <m:mn>1</m:mn>
+    </m:mrow>
+   </m:munderover>
+   <m:msup>
+    <m:mi>ⅇ</m:mi>
+    <m:mrow>
+     <m:mrow>
+      <m:mo>-</m:mo>
+      <m:mi>j2</m:mi>
+     </m:mrow>
+     <m:mo>⁢</m:mo>
+     <m:mi>π</m:mi>
+     <m:mo>⁢</m:mo>
+     <m:mrow>
+      <m:mo>(</m:mo>
+      <m:mrow>
+       <m:mfrac>
+        <m:mi>k</m:mi>
+        <m:mi>N</m:mi>
+       </m:mfrac>
+       <m:mo>+</m:mo>
+       <m:mrow>
+        <m:msub>
+        <m:mi>f</m:mi>
+        <m:mn>0</m:mn>
+        </m:msub>
+        <m:mo>⁢</m:mo>
+        <m:mi>τ</m:mi>
+       </m:mrow>
+      </m:mrow>
+      <m:mo>)</m:mo>
+     </m:mrow>
+    </m:mrow>
+   </m:msup>
+  </m:mrow>
+  </m:apply>
+  </m:apply>
+  </m:semantics>
+</m:math>
+</equation>
+where N for this equation is the length of the zero padded array and R remains from the temporal DFT.  The result of the summation is a spectrum that is a digital sinc function centered at 
+<m:math>
+ <m:semantics>
+  <m:mrow>
+   <m:msub>
+    <m:mi>f</m:mi>
+    <m:mn>0</m:mn>
+   </m:msub>
+   <m:mi>τ</m:mi>
+   <m:mo>⁢</m:mo>
+  </m:mrow>
+ </m:semantics>
+</m:math>.  The value of the sinc represents the magnitude of the frequency fo at an angle theta.  Because of the shape of the lobes of the sinc, which look like beams at the various angles, the process of using the array to look for signals in different directions is called <term>beamforming</term>.  This technique is used frequently in array processing and it is what enabled us to detect the directions from which certain frequency sounds come from and to listen in different directions.</para>
+			<para id="p11">Recalling that we zero padded our array of coefficients corresponding to 
+<m:math>
+ <m:semantics>
+   <m:msub>
+    <m:mi>f</m:mi>
+    <m:mn>0</m:mn>
+   </m:msub>
+ </m:semantics>
+</m:math>, what has that done for us in terms of the spatial spectrum?  Well, we have improved our resolution, which means that the spectrum is smoother and more well-defined.  This is because we are able to see the frequency differences for smaller angles.  If we increase the actual number of sensors in the array, we will also improve our resolution and we will improve the beamforming by increasing the magnitude of the main lobe in the sinc spectrum and decreasing the magnitudes of the side lobes.</para>
+		</section>
+  </content>
+  
+</document>

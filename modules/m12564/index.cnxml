@@ -1,0 +1,68 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" id="None" module-id="" cnxml-version="0.7">
+	<title>Spatial Frequency</title>
+	<content>
+		<section id="s31">
+			<title>Temporal Frequency</title>
+			<para id="p30"><title>Problems with Temporal Frequency Analysis</title>We are  accustomed  to measuring frequency in terms of (1/seconds), or Hz.  Sometimes we may even measure frequency in rad/sec, which is often called angular frequency.  More information about temporal frequency can be found <link document="m0038">here</link>.  The reason we often use frequency domain techniques is because it allows for <link document="m0533">filtering</link> of noise and various signals.  If were just interested in listening to a particular tone, say a 500 Hz sine wave, it would be easy to just tune in to that one frequency, we would just bandpass filter out all the other noise.  However, when we do this we get no information about where the signal is coming from.  So, even though we could easily ignore noise, we could not steer our array to just listen in one direction.  It would be more like giving it 'selective hearing.'  It hears what it wants to, which in this case would be signals at 500 Hz.</para>
+		</section>
+		<section id="s32">
+			<title>Propagating Waves</title>
+			<para id="p31"><title>Nature of Waves</title>As Dr. Wilson discusses in his <link document="m10095">modules</link> on waves propagating down a transmission line, waves carry two forms information in two domains.  These domains are the time and space domains, because the wave equation is usually written in terms of s(x,t) because it propagates in space at a particular time, and if one looks at standing wave at a particular point in space, one should notice that it still moves up and down in a similar manner.  An example of this illustrated below.  So, if we only look at the temporal frequency component, we are missing out on half the information being transmitted in the propagating signal!  If we really want to be able to steer our array in a direction, then we need to analyze the spatial frequency components.  <figure id="fig1">
+					<media id="idm3714240" alt=""><image src="Wave.png " mime-type="image/png"/></media>
+					<caption>Illustration of a wave propagating in space</caption>
+				</figure></para>
+		</section>
+		<section id="s33">
+			<title>Spatial Frequency</title>
+			<para id="p32"><title>Introduction to Spatial Frequency</title>While we were investigating the time domain, we were able to accomplish such operations as filtering by taking 
+<m:math>
+ <m:semantics>
+   <m:mrow>
+    <m:mn>2</m:mn>
+    <m:mo>⁢</m:mo>
+    <m:mi>π</m:mi>
+   </m:mrow>
+ </m:semantics>
+</m:math>
+/
+<m:math>
+ <m:mi>T</m:mi>
+</m:math>
+, where T is the period of the signal, to get the temporal frequency denotated 
+<m:math>
+ <m:semantics>
+  <m:mi>ω</m:mi>
+ </m:semantics>
+</m:math>. We can use similar reasoning to obtain k, the wavenumber, which is the measure of spatial frequency.  Instead of using the period of the signal, we now use the wavelength, which is the spatial equivalent to the period.  This makes sense, because a period is the length of time it takes to complete one cycle, whereas the wavelength is the amount of distance the wave covers in one cycle.  We there are able to change the temporal frequency equation 
+<m:math>
+ <m:semantics>
+  <m:mi>ω</m:mi>
+ </m:semantics>
+</m:math>
+=
+<m:math>
+ <m:semantics>
+   <m:mrow>
+    <m:mn>2</m:mn>
+    <m:mo>⁢</m:mo>
+    <m:mi>π</m:mi>
+   </m:mrow>
+ </m:semantics>
+</m:math>
+/
+T into k = 
+<m:math>
+ <m:semantics>
+   <m:mrow>
+    <m:mn>2</m:mn>
+    <m:mo>⁢</m:mo>
+    <m:mi>π</m:mi>
+   </m:mrow>
+ </m:semantics>
+</m:math> / 
+<m:math>
+ <m:mi>λ</m:mi>
+</m:math>.   </para>
+		</section>
+	</content>
+</document>

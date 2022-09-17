@@ -1,0 +1,24 @@
+<document xmlns="http://cnx.rice.edu/cnxml" id="res1" module-id="" cnxml-version="0.7">
+	<title>Results</title>
+	<content>
+		<para id="aaoeu">The tests of the real-world implementation were successful. Using the second laptop, we positioned a 1000 Hz signal at about 40 degrees and a 1600Hz signal at about -25 degrees relative to the axis perpendicular to our array. Both signals were on simultaneously and at equal volume. As you can see from the spectrum of the output of our program, changing the dial to tune to the array to different directions results in the expected behavior.<figure id="fig1">
+				<title>Tuned towards 40 degrees</title>
+				<media id="idp3266176" alt=""><image src="../../media/1000.JPG" mime-type="image/jpeg"/></media>
+			</figure><figure id="fig2">
+				<title>Tuned towards -25 degrees</title>
+				<media id="idm6850976" alt=""><image src="../../media/1600.JPG" mime-type="image/jpeg"/></media>
+			</figure></para>
+		<para id="para2">These first two figures show that our output signal consists of the two test sinusoids. Tuning the software to look in the appropriate directions shows that the magnitude of the corresponding sinusoid is more powerful than that of the power of the other sinusoid. Focusing on the 1000 Hz sinusoid enhances the power of that sinusoid to about 5 times that of the other sinusoid. Focusing on the 1600 Hz sinusoid gives even better results. The difference in power here is more than 10 times. <figure id="fig3">
+				<title>Tuned straight ahead</title>
+				<media id="idm436096" alt=""><image src="../../media/zero.JPG" mime-type="image/jpeg"/></media>
+			</figure><figure id="fig4">
+				<title>Tuned  towards -83 degrees</title>
+				<media id="idm6107120" alt=""><image src="../../media/none.JPG" mime-type="image/jpeg"/></media>
+			</figure></para>
+		<para id="para3">When we tune the array to a direction which does not have a source we get scaled down versions of anything close to that angle. For example, when we steer it at the middle we get small versions of the two sinusoids, and when we steer the beam at a direction that's way off, we get much smaller peaks from our two sinusoids.</para>
+		<section id="sec2">
+			<title>Conclusion</title>
+			<para id="sece3">We were able to demonstrate this processing technique in both simulation and real life. The main problem with our system is the amount of processing that is needed to make this a realtime process. For example, using a 1.6GHz processor we were capturing 1 second of data and taking about 2 seconds to process it. Due to this restriction in processing power, we are only processing a band of spectrum from 800 - 1600 Hz. This is not enough to process voice data. Another problem is that we have to space the sensors closer together in order to sample a higher frequencies because we have to avoid spatial aliasing in addition to temporal aliasing. Therefore the main improvements to this system would be ways to decrease the amount of processing or to use a much more powerful system. Although we have hammered out a good chunk of this project, there is definitely room for improvement in the optimization of processing.</para>
+		</section>
+	</content>
+</document>

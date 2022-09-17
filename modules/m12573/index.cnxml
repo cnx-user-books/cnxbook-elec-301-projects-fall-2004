@@ -1,0 +1,79 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Optimization of Image Recognition: Fingerprint Matching</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>ace366bf-172e-45ea-8e73-c38ef8c9f919</md:uuid>
+</metadata>
+
+<content>
+<figure id="thumb">
+	    <title>Thumbprint Spectrum</title>
+	    <media id="idp6521424" alt=""><image src="../../media/thumb.jpg" mime-type="image/jpeg"/></media>
+	    <caption> This is the mesh plot of a scanned 
+                thumbprint.</caption>
+	  </figure> 
+
+<section id="Optimization">
+<title> Optimization Through Signal Processing </title>
+<para id="first">
+Historically, there has always been a need for effective authentication solutions.  Biometrics has been proven to be an effective answer to this problem because of the
+uniqueness that biometric keys possess.  Therefore, the challenge now is to develop effective biometric solutions optimized to certain constraints depending on the needs and resources of the end user.  Some will prefer solutions with real-time results while others will prefer solutions that are nearly error-free. 
+	Our research focuses on using the fundamentals of digital signal processing to bring about the optimized solutions. 
+</para>
+</section>
+
+<section id="Main">
+<title> Two Equivalent Processes, Two Different Domains </title>
+    <para id="Title">
+     Fingerprint matching is process that involves scanning an image, then testing that image against a database of known fingerprints to find out if a match has occurred.  This process of finding a "correlation" between two pictures can be executed in one of two ways using signal processing: In the Time/Spatial Domain or in the Frequency Domain.  In addition to written analysis, be sure to check out the Matlab .m files on the <term>sidebar</term>.
+</para> 
+
+<para id="Time"><title> Time/Spatial Domain</title>
+
+    The Time/spatial domain process of matching involves using <link document="m10973"> 2D Convolution </link> 
+ to find a correlation between two image matrices.  In order to find a correlation, first we can use the Matlab command "conv2" as our workhorse.  Once the two images are convolved, the maximum value in the matrix is obtain using the command "max." 
+
+<list id="Properties">
+	    <title>Properties of the Spatial Convolution Method</title>
+	    <item>Advantages: Known Method that works, fairly robust</item> 
+	    <item>Disadvantages: Calculations take up many clock cycles i.e. fairly expensive, timewise</item> 
+	    	  </list>
+</para>
+
+<para id="Freq"><title> Frequency Domain </title>
+
+
+Just like in the spatial domain, in the frequency domain we use a <link document="m10151"> Matched Filter </link> to determine the correlation between two images.  The frequency domain counterpart to 2D convolution is multiplication using Fourier manipulation.  That is, instead of spending a great deal of clock cycles convolving two large images (256x256), we simply can perform the <link document="m10964"> FFT </link> on the two image matrices and then multiply the result.  In order to get good results, it is also necessary to use the "normalized" matrices with Matlab's "norm" command.  More specifically, we used the Frobenius Norm, also called the Euclidean Norm.
+Here is the process in full:
+ 
+	  <list id="Frequency" list-type="enumerated">
+	    <title>Frequency Domain Matching</title>
+	    <item>Take Frobenius Norm of both images</item> 
+	    <item>Perform the FFT on both images</item> 
+	    <item>Multiply the resultant matrices together</item>
+            <item>Similarly to spatial domain, find the maximum value, or correlation</item>
+	  </list> 
+	     
+</para>
+
+<para id="Difference">
+Since the multiplication in the Fourier domain is the same as convolution in the time/spatial domain, we choose Fourier analysis for sake of pure speed and wait time.  In Matlab, the "FFT" command is just more optimized for faster calculations, and the difference is noticable.   
+
+
+<list id="Properties2">
+	    <title>Properties of the Fourier Method</title>
+	    <item>Advantages: Same as spatial domain method only much faster </item> 
+	    <item>Disadvantages: Doesn't take into account angular orientation of the fingerprint.  Only 2D. </item> 
+	    	  </list>
+
+</para>
+
+    
+</section> 
+
+<para id="link">
+Now that we have looked at the two different domains and tested their equivalence, we move on to further optimization of this classification process.
+Go to the module, "Classification of Images".
+</para> 
+  </content>
+
+
+</document>

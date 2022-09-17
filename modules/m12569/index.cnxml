@@ -1,0 +1,13 @@
+<document xmlns="http://cnx.rice.edu/cnxml" id="blah" module-id="" cnxml-version="0.7">
+	<title>Hardware</title>
+	<content>
+		<section id="sec1">
+			<title>Hardware</title>
+			<para id="para1">Our array was built using six Sony F-V100 omnidirectional microphones, spaced at 9.9 cm apart. We built a frame out of precisely cut 1" I.D. PVC pipe in order to keep the microphones spaced accurately apart and minimize phase error in our measurements. These microphones produced an average 1 mV p-p signal from the sinusoids that were used for the test program. The signals were fed into a six-channel amplifier to increase the voltage to .5 V p-p in order to achieve a usable range of the DAQ card. The amplifier was built using common 741 op-amps and care was taken to insure all the path lengths were approximately the same length. Following the amplifier, the signals were fed into a National Instruments 6024e DAQ card. The DAQ card was set to sample at 4000 Hz for a length of 2 seconds.</para>
+			<section id="sec2">
+				<title>Test Setup</title>
+				<para id="para2">Once the signals were digitized, we were able to use the Labview code that we had developed using the simulated test signals and apply the same algorithm to the real life signals that we were recording. To generate test signals we used a second laptop to generate different frequency sinusoids on the left and right channel of the sound output and then used a set of speakers with extended cables to place them at different locations around the array. For the actual location of the tests, we set up the array in the middle of an open outdoor area in order to avoid sounds echoing off the walls of an enclosed space and causing unwanted interference.</para>
+			</section>
+		</section>
+	</content>
+</document>
